@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lab5 - Exercise 1</title>
+    </head>
+    <body>
+        <input type="text" id="textInput" placeholder="Enter a user number (1-30)"/>
+        <label id="textLabel"></label>
+        <button id="redButton">Red</button>
+        <button id="blueButton">Blue</button>
+        <button id="greenButton">Green</button>
+        <button id="orangeButton">Orange</button>
+        <button id="purpleButton">Purple</button>
+    </body>
+    <script type="text/javascript">
+        const textInput = document.getElementById("textInput");
+        const label = document.getElementById("textLabel");
+
+        textInput.addEventListener("keyup", async (event) => {
+            if (event.key === "Enter") {
+                var user = await retrieveData(textInput.value);
+                if(user != null){
+                    let text = "ID: " + user.id + ", Name: " + user.first_name + ", Group: " + user.user_group;
+                    label.textContent = text;
+                }else{
+                    label.textContent = "User not found";
+                }
+                textInput.value = "";
+            }
+        });
+
+        const buttonRed = document.getElementById("redButton");
+        const buttonGreen = document.getElementById("greenButton");
+        const buttonBlue = document.getElementById("blueButton");
+        const buttonOrange = document.getElementById("orangeButton");
+        const buttonPurple = document.getElementById("purpleButton");
+
+        buttonRed.addEventListener("click", () => {
+            label.style.color = "red";
+        });
+
+        buttonBlue.addEventListener("click", () => {
+            label.style.color = "blue";
+        });
+
+        buttonGreen.addEventListener("click", () => {
+            label.style.color = "green";
+        });
+
+        buttonOrange.addEventListener("click", () => {
+            label.style.color = "orange";
+        });
+
+        buttonPurple.addEventListener("click", () => {
+            label.style.color = "purple";
+        });
+
+        async function retrieveData(number){
+            let response = await fetch("https://67c1fadf61d8935867e4f16b.mockapi.io/users_api");
+            let data = await response.json();
+            for(var i = 0; i < data.length; i++){
+                if(data[i].id == number){
+                    return data[i];
+                }
+            }
+            return null;
+        }
+
+    </script>
+</html>
